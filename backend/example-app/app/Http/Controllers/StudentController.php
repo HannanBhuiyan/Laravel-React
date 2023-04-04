@@ -47,22 +47,31 @@ class StudentController extends Controller
             'student_class.required' => 'Student class is required',
         ]);
 
-
-        try {
+        if($validator->fails()){
+            return response()->json([
+                'status' => '422',
+                'error' => $validator->errors()
+            ]);
+        }
+        else {
             $student = new Student();
             $student->student_name = $request->student_name;
             $student->student_email = $request->student_email;
             $student->student_class = $request->student_class;
             $student->save();
             return response()->json(['success' => 'Student added success']);
-
-        } catch (Exception $ex) {
-                return response()->json([
-                    'status' => '422',
-                    'error' => $validator->errors()
-                ]);
-            
         }
+
+        // try {
+           
+
+        // } catch (Exception $ex) {
+        //         return response()->json([
+        //             'status' => '422',
+        //             'error' => $validator->errors()
+        //         ]);
+            
+        // }
  
 
  
@@ -76,7 +85,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return response()->json($student);
     }
 
     /**
@@ -87,7 +97,8 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return response()->json($student);
     }
 
     /**

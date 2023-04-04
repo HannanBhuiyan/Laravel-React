@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import http from "../Http";
+import { Link, NavLink } from 'react-router-dom';
+ 
 
 
 const Home = () => {
 
-
+   
     const [students, setStudent] = useState([]);
-
+    
 
     useEffect( () => {
         fetchAllStudent()
@@ -20,6 +22,14 @@ const Home = () => {
     }
 
        
+
+    const deleteProduct = async (id) => {
+        await http.delete(`/student/${id}`).then( (res) => {
+            fetchAllStudent()
+        })
+    }
+
+
 
     return(
         
@@ -44,9 +54,9 @@ const Home = () => {
                                 <td>{student_email}</td>
                                 <td>{student_class}</td>
                                 <td>
-                                    <a className="btn btn-info" href="#">Edit</a>
-                                    <a className="btn btn-success mx-3" href="#">View</a>
-                                    <a className="btn btn-danger" href="#">Delete</a>
+                                    <NavLink className="btn btn-info" to={`/edit/${student.id}`} >Edit</NavLink>
+                                    <Link className="btn btn-success mx-3" to={`/show/${student.id}`}>View</Link>
+                                    <button onClick={ () => deleteProduct(student.id)} className="btn btn-danger" >Delete</button>
                                 </td>
                         </tr>
 

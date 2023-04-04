@@ -20,4 +20,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::apiResource('student', StudentController::class);
+Route::resource('student', StudentController::class);
